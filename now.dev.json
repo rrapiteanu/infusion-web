@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "name": "infusion",
+    "regions": ["lhr1"],
+    "build": {
+      "env": {
+        "API_URL": "http://localhost:4000/"
+      }
+    },
+    "builds": [
+        { "src": "next.config.js", "use": "@now/next" }
+      ],
+    "routes": [
+      { "src": "/zone/(?<id>[^/]+)$", "dest": "/zone?id=$id" },
+      { "src": "/user/confrim/(?<token>[^/]+)$", "dest": "/confirm?token=$token" },
+      { "src": "/user/change-password/(?<token>[^/]+)$", "dest": "/change-password?token=$token" }
+    ]
+}
