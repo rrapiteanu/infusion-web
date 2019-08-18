@@ -4,6 +4,8 @@ import styled from "styled-components";
 // import BubbleButton from "../../../../utils/BubbleButton/BubbleButton";
 import headerImage from "./header.png";
 import Router from "next/router";
+import { withAuth } from "../../../lib/auth";
+import { withApollo } from "react-apollo";
 
 const BubbleButton = styled.button`
   font-weight: 500;
@@ -78,19 +80,19 @@ const Container = styled.div`
 
 class HomepageHeader extends React.Component<any, any> {
   render() {
-    const { isAuth } = this.props;
+    const { isAuth, user } = this.props;
+
     return (
       <Container>
         <Grid container direction="row">
           <Grid item lg={2} md={1} sm={1} />
           <Grid item lg={5} md={6} sm={11} xs={12}>
             <HeaderContent>
-              <h1>Fed up with working from coffee shops?</h1>
+              <h1>One platform. Many solutions.</h1>
               <h4>
-                Utilising space in London’s top restaurants, bars and hotels,
+                Connect with other students, join your school, build communities.
               </h4>
-              <h4>we are changing co-working for good.</h4>
-
+         
               <div style={{ marginTop: "30px" }}>
                 {!isAuth && (
                   <BubbleButton
@@ -106,11 +108,11 @@ class HomepageHeader extends React.Component<any, any> {
                 {isAuth && (
                   <BubbleButton
                     onClick={() => {
-                      Router.push("/zones");
+                      Router.push("/feed");
                     }}
                     className="header-button"
                   >
-                    Search zones
+                    Go to feed
                   </BubbleButton>
                 )}
               </div>
@@ -128,4 +130,4 @@ class HomepageHeader extends React.Component<any, any> {
   }
 }
 
-export default HomepageHeader;
+export default withAuth(HomepageHeader);

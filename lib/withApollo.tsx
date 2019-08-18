@@ -1,11 +1,12 @@
 import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
-import cookie from "cookie";
 import Head from "next/head";
 import PropTypes from "prop-types";
 import React from "react";
 import { getDataFromTree } from "react-apollo";
 import initApollo from "./initApollo";
 import { isBrowser } from "./isBrowser";
+import cookie from "cookie";
+
 
 function parseCookies(req, options = {}) {
   return cookie.parse(
@@ -15,8 +16,8 @@ function parseCookies(req, options = {}) {
 }
 
 export default App => {
-  return class WithData extends React.Component {
-    static displayName = `WithData(${App.displayName})`;
+  return class Apollo extends React.Component {
+    static displayName = `withApollo(${App.displayName})`;
     static propTypes = {
       apolloState: PropTypes.object.isRequired
     };
@@ -27,14 +28,12 @@ export default App => {
         router,
         ctx: { req, res }
       } = ctx;
-      const apollo = initApollo(
-        {},
-        {
-          getToken: () => parseCookies(req).qid
-        }
-      );
+      
+      const {client, socket} = initApollo({},    {
+        getToken: () => parseCookies(req).token
+      });
 
-      ctx.ctx.apolloClient = apollo;
+      ctx.ctx.apolloClient = client;
 
       let appProps = {};
       if (App.getInitialProps) {
@@ -57,7 +56,7 @@ export default App => {
               {...appProps}
               Component={Component}
               router={router}
-              apolloClient={apollo}
+              apolloClient={client}
             />
           );
         } catch (error) {
@@ -73,7 +72,7 @@ export default App => {
       }
 
       // Extract query data from the Apollo's store
-      const apolloState = apollo.cache.extract();
+      const apolloState = client.cache.extract();
 
       return {
         ...appProps,
@@ -82,21 +81,26 @@ export default App => {
     }
 
     apolloClient: ApolloClient<NormalizedCacheObject>;
+    absintheSocket: any;
 
     constructor(props: any) {
       super(props);
       // `getDataFromTree` renders the component first, the client is passed off as a property.
       // After that rendering is done using Next's normal rendering pipeline
-      this.apolloClient = initApollo(props.apolloState, {
+
+      const {client, socket} = initApollo(props.apolloState, {
         getToken: () => {
           //@ts-ignore
           return parseCookies().token;
         }
       });
+
+      this.apolloClient = client;
+      this.absintheSocket = socket;
     }
 
     render() {
-      return <App {...this.props} apolloClient={this.apolloClient} />;
+      return <App {...this.props} apolloClient={this.apolloClient} socket={this.absintheSocket} />;
     }
   };
 };

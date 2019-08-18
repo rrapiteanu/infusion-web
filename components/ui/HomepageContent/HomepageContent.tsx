@@ -79,13 +79,11 @@ class HomepageContent extends React.Component {
 
             <Grid item lg={8} md={8} sm={12} xs={12}>
               <div className="section">
-                <h2>Benefits</h2>
+                <h2>Community</h2>
                 <h4>
-                  For just £95 a month, members can enter any of our Zones for
-                  no additional charge. You’ll have access to WiFi, sockets,
-                  refreshments and a community of like minded individuals. All
-                  of our Zones are vetted by our team to ensure they meet our
-                  high standards.
+                  Community is at the heart of everything we do. We use our
+                  platform to encourage collaboration and communication and have
+                  built a fantastic product to aid in facilitating this.
                 </h4>
               </div>
             </Grid>
@@ -96,11 +94,9 @@ class HomepageContent extends React.Component {
           <Grid container direction="row" className="middle-lg middle-md">
             <Grid item lg={8} md={8} sm={12} xs={12}>
               <div className="section">
-                <h2>Community</h2>
+                <h2>Connect with other students</h2>
                 <h4>
-                  Community is at the heart of everything we do. We use our
-                  Zones to encourage collaboration and communication and have
-                  built a fantastic product to aid in facilitating this.
+                  Find students around the globe with the same interests as you.
                 </h4>
               </div>
             </Grid>

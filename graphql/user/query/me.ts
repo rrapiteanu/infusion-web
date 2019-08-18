@@ -2,17 +2,12 @@ import gql from "graphql-tag";
 
 export const meQuery = gql`
   query Me {
-    me {
-      id
+    currentUser {
       email
-      firstName
-      lastName
+      gravatarMd5
+      id
       name
-      accountType
-      ccLast4
-      profilePicture
-      subUntil
-      subStatus
+      token
     }
   }
 `;

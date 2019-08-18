@@ -10,473 +10,204 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
+  /** The `Naive DateTime` scalar type represents a naive date and time without
+   * timezone. The DateTime appears in a JSON response as an ISO8601 formatted
+   * string.
+   */
+  NaiveDateTime: any;
 };
 
-export type ChangePasswordInput = {
+/** A comment on the site */
+export type Comment = {
+  __typename?: "Comment";
+  body?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["ID"]>;
+  insertedAt?: Maybe<Scalars["NaiveDateTime"]>;
+  post?: Maybe<Post>;
+  user?: Maybe<User>;
+};
+
+/** A conversation on the site */
+export type Conversation = {
+  __typename?: "Conversation";
+  id?: Maybe<Scalars["ID"]>;
+  messages?: Maybe<Array<Maybe<Message>>>;
+  title?: Maybe<Scalars["String"]>;
+  updatedAt?: Maybe<Scalars["NaiveDateTime"]>;
+  users?: Maybe<Array<Maybe<User>>>;
+};
+
+/** A message on the site */
+export type Message = {
+  __typename?: "Message";
+  body?: Maybe<Scalars["String"]>;
+  conversation?: Maybe<Conversation>;
+  id?: Maybe<Scalars["ID"]>;
+  user?: Maybe<User>;
+};
+
+/** A post on the site */
+export type Post = {
+  __typename?: "Post";
+  body?: Maybe<Scalars["String"]>;
+  comments?: Maybe<Array<Maybe<Comment>>>;
+  id?: Maybe<Scalars["ID"]>;
+  insertedAt?: Maybe<Scalars["NaiveDateTime"]>;
+  user?: Maybe<User>;
+};
+
+export type RootMutationType = {
+  __typename?: "RootMutationType";
+  /** Authenticate */
+  authenticate?: Maybe<User>;
+  /** Create comment */
+  createComment?: Maybe<Comment>;
+  /** Create conversation */
+  createConversation?: Maybe<Conversation>;
+  /** Create message */
+  createMessage?: Maybe<Message>;
+  /** Create post */
+  createPost?: Maybe<Post>;
+  /** Sign up */
+  signUp?: Maybe<User>;
+};
+
+export type RootMutationTypeAuthenticateArgs = {
+  email: Scalars["String"];
   password: Scalars["String"];
-  token: Scalars["String"];
 };
 
-export type CreateZoneInput = {
+export type RootMutationTypeCreateCommentArgs = {
+  body: Scalars["String"];
+  postId: Scalars["ID"];
+};
+
+export type RootMutationTypeCreateConversationArgs = {
+  userIds: Array<Maybe<Scalars["ID"]>>;
+};
+
+export type RootMutationTypeCreateMessageArgs = {
+  body: Scalars["String"];
+  conversationId: Scalars["ID"];
+};
+
+export type RootMutationTypeCreatePostArgs = {
+  body: Scalars["String"];
+};
+
+export type RootMutationTypeSignUpArgs = {
+  email: Scalars["String"];
   name: Scalars["String"];
-  description: Scalars["String"];
-  totalSpots: Scalars["Float"];
-  address: Scalars["String"];
-  thumbnailUrl: Scalars["String"];
-};
-
-export type EditProfileInput = {
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  email: Scalars["String"];
-};
-
-export type Mutation = {
-  __typename?: "Mutation";
-  activateSubscription?: Maybe<User>;
-  cancelSubscription?: Maybe<User>;
-  changePassword?: Maybe<User>;
-  changePaymentMethod?: Maybe<User>;
-  confirmUser: Scalars["Boolean"];
-  createSubscription?: Maybe<User>;
-  createUser: User;
-  editProfile?: Maybe<User>;
-  forgotPassword: Scalars["Boolean"];
-  login?: Maybe<User>;
-  logout: Scalars["Boolean"];
-  addProfilePicture?: Maybe<Scalars["String"]>;
-  register: User;
-  createZone: Zone;
-};
-
-export type MutationChangePasswordArgs = {
-  data: ChangePasswordInput;
-};
-
-export type MutationChangePaymentMethodArgs = {
-  ccLast4: Scalars["String"];
-  token: Scalars["String"];
-};
-
-export type MutationConfirmUserArgs = {
-  token: Scalars["String"];
-};
-
-export type MutationCreateSubscriptionArgs = {
-  ccLast4: Scalars["String"];
-  token: Scalars["String"];
-};
-
-export type MutationCreateUserArgs = {
-  data: RegisterInput;
-};
-
-export type MutationEditProfileArgs = {
-  data: EditProfileInput;
-};
-
-export type MutationForgotPasswordArgs = {
-  email: Scalars["String"];
-};
-
-export type MutationLoginArgs = {
   password: Scalars["String"];
-  email: Scalars["String"];
 };
 
-export type MutationAddProfilePictureArgs = {
-  picture: Scalars["Upload"];
+export type RootQueryType = {
+  __typename?: "RootQueryType";
+  /** Get a specific conversation */
+  conversation?: Maybe<Conversation>;
+  /** Get all conversations for current user */
+  conversations?: Maybe<Array<Maybe<Conversation>>>;
+  /** Get current user */
+  currentUser?: Maybe<User>;
+  /** Get all messages for a conversation */
+  messages?: Maybe<Array<Maybe<Message>>>;
+  /** Get a specific post */
+  post?: Maybe<Post>;
+  /** Get all comments for a specific post */
+  postComments?: Maybe<Array<Maybe<Comment>>>;
+  /** Get all posts */
+  posts?: Maybe<Array<Maybe<Post>>>;
+  /** Search users */
+  searchUsers?: Maybe<Array<Maybe<User>>>;
 };
 
-export type MutationRegisterArgs = {
-  data: RegisterInput;
-};
-
-export type MutationCreateZoneArgs = {
-  data: CreateZoneInput;
-};
-
-export type Owner = {
-  __typename?: "Owner";
+export type RootQueryTypeConversationArgs = {
   id: Scalars["ID"];
-  name: Scalars["String"];
 };
 
-export type PasswordInput = {
-  password: Scalars["String"];
+export type RootQueryTypeMessagesArgs = {
+  conversationId: Scalars["ID"];
 };
 
-export type Query = {
-  __typename?: "Query";
-  me?: Maybe<User>;
-  zones: Array<Zone>;
-  zone: Zone;
+export type RootQueryTypePostArgs = {
+  id: Scalars["ID"];
 };
 
-export type QueryZoneArgs = {
-  zoneId: Scalars["Int"];
+export type RootQueryTypePostCommentsArgs = {
+  postId: Scalars["ID"];
 };
 
-export type RegisterInput = {
-  password: Scalars["String"];
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  email: Scalars["String"];
+export type RootQueryTypeSearchUsersArgs = {
+  searchTerm: Scalars["String"];
 };
 
+export type RootSubscriptionType = {
+  __typename?: "RootSubscriptionType";
+  commentCreated?: Maybe<Comment>;
+  conversationCreated?: Maybe<Conversation>;
+  conversationUpdated?: Maybe<Conversation>;
+  messageCreated?: Maybe<Message>;
+  postCreated?: Maybe<Post>;
+};
+
+export type RootSubscriptionTypeCommentCreatedArgs = {
+  postId: Scalars["ID"];
+};
+
+export type RootSubscriptionTypeMessageCreatedArgs = {
+  conversationId: Scalars["ID"];
+};
+
+/** A user of the site */
 export type User = {
   __typename?: "User";
-  id: Scalars["ID"];
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  email: Scalars["String"];
-  subUntil?: Maybe<Scalars["Float"]>;
-  subStatus: Scalars["String"];
-  ccLast4?: Maybe<Scalars["String"]>;
-  accountType: Scalars["String"];
-  name: Scalars["String"];
-  profilePicture?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  gravatarMd5?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+  token?: Maybe<Scalars["String"]>;
 };
-
-export type Zone = {
-  __typename?: "Zone";
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  description: Scalars["String"];
-  totalSpots: Scalars["Float"];
-  address: Scalars["String"];
-  thumbnailUrl: Scalars["String"];
-  owners: Array<Owner>;
-};
-export type AddProfilePictureMutationVariables = {
-  file: Scalars["Upload"];
-};
-
-export type AddProfilePictureMutation = { __typename?: "Mutation" } & Pick<
-  Mutation,
-  "addProfilePicture"
->;
-
-export type ChangePasswordMutationVariables = {
-  data: ChangePasswordInput;
-};
-
-export type ChangePasswordMutation = { __typename?: "Mutation" } & {
-  changePassword: Maybe<
-    { __typename?: "User" } & Pick<
-      User,
-      "id" | "firstName" | "lastName" | "email" | "name"
-    >
-  >;
-};
-
-export type ConfirmUserMutationVariables = {
-  token: Scalars["String"];
-};
-
-export type ConfirmUserMutation = { __typename?: "Mutation" } & Pick<
-  Mutation,
-  "confirmUser"
->;
-
-export type ForgotPasswordMutationVariables = {
-  email: Scalars["String"];
-};
-
-export type ForgotPasswordMutation = { __typename?: "Mutation" } & Pick<
-  Mutation,
-  "forgotPassword"
->;
-
 export type LoginMutationVariables = {
   email: Scalars["String"];
   password: Scalars["String"];
 };
 
-export type LoginMutation = { __typename?: "Mutation" } & {
-  login: Maybe<
-    { __typename?: "User" } & Pick<
-      User,
-      "id" | "firstName" | "lastName" | "email" | "name"
-    >
-  >;
+export type LoginMutation = { __typename?: "RootMutationType" } & {
+  authenticate: Maybe<{ __typename?: "User" } & Pick<User, "id" | "token">>;
 };
-
-export type LogoutMutationVariables = {};
-
-export type LogoutMutation = { __typename?: "Mutation" } & Pick<
-  Mutation,
-  "logout"
->;
 
 export type RegisterMutationVariables = {
-  data: RegisterInput;
+  email: Scalars["String"];
+  name: Scalars["String"];
+  password: Scalars["String"];
 };
 
-export type RegisterMutation = { __typename?: "Mutation" } & {
-  register: { __typename?: "User" } & Pick<
-    User,
-    "id" | "firstName" | "lastName" | "email" | "name"
+export type RegisterMutation = { __typename?: "RootMutationType" } & {
+  signUp: Maybe<
+    { __typename?: "User" } & Pick<
+      User,
+      "email" | "gravatarMd5" | "id" | "name" | "token"
+    >
   >;
 };
 
 export type MeQueryVariables = {};
 
-export type MeQuery = { __typename?: "Query" } & {
-  me: Maybe<
+export type MeQuery = { __typename?: "RootQueryType" } & {
+  currentUser: Maybe<
     { __typename?: "User" } & Pick<
       User,
-      | "id"
-      | "email"
-      | "firstName"
-      | "lastName"
-      | "name"
-      | "accountType"
-      | "ccLast4"
-      | "profilePicture"
-      | "subUntil"
-      | "subStatus"
+      "email" | "gravatarMd5" | "id" | "name" | "token"
     >
   >;
 };
 
-export type ZoneQueryVariables = {
-  id: Scalars["Int"];
-};
-
-export type ZoneQuery = { __typename?: "Query" } & {
-  zone: { __typename?: "Zone" } & Pick<
-    Zone,
-    "id" | "name" | "description" | "totalSpots" | "address" | "thumbnailUrl"
-  >;
-};
-
-export type ZonesQueryVariables = {};
-
-export type ZonesQuery = { __typename?: "Query" } & {
-  zones: Array<
-    { __typename?: "Zone" } & Pick<
-      Zone,
-      "id" | "name" | "description" | "totalSpots" | "address" | "thumbnailUrl"
-    >
-  >;
-};
-
-export const AddProfilePictureDocument = gql`
-  mutation addProfilePicture($file: Upload!) {
-    addProfilePicture(picture: $file)
-  }
-`;
-export type AddProfilePictureMutationFn = ReactApollo.MutationFn<
-  AddProfilePictureMutation,
-  AddProfilePictureMutationVariables
->;
-export type AddProfilePictureComponentProps = Omit<
-  ReactApollo.MutationProps<
-    AddProfilePictureMutation,
-    AddProfilePictureMutationVariables
-  >,
-  "mutation"
->;
-
-export const AddProfilePictureComponent = (
-  props: AddProfilePictureComponentProps
-) => (
-  <ReactApollo.Mutation<
-    AddProfilePictureMutation,
-    AddProfilePictureMutationVariables
-  >
-    mutation={AddProfilePictureDocument}
-    {...props}
-  />
-);
-
-export type AddProfilePictureProps<TChildProps = {}> = Partial<
-  ReactApollo.MutateProps<
-    AddProfilePictureMutation,
-    AddProfilePictureMutationVariables
-  >
-> &
-  TChildProps;
-export function withAddProfilePicture<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    AddProfilePictureMutation,
-    AddProfilePictureMutationVariables,
-    AddProfilePictureProps<TChildProps>
-  >
-) {
-  return ReactApollo.withMutation<
-    TProps,
-    AddProfilePictureMutation,
-    AddProfilePictureMutationVariables,
-    AddProfilePictureProps<TChildProps>
-  >(AddProfilePictureDocument, {
-    alias: "withAddProfilePicture",
-    ...operationOptions
-  });
-}
-export const ChangePasswordDocument = gql`
-  mutation ChangePassword($data: ChangePasswordInput!) {
-    changePassword(data: $data) {
-      id
-      firstName
-      lastName
-      email
-      name
-    }
-  }
-`;
-export type ChangePasswordMutationFn = ReactApollo.MutationFn<
-  ChangePasswordMutation,
-  ChangePasswordMutationVariables
->;
-export type ChangePasswordComponentProps = Omit<
-  ReactApollo.MutationProps<
-    ChangePasswordMutation,
-    ChangePasswordMutationVariables
-  >,
-  "mutation"
->;
-
-export const ChangePasswordComponent = (
-  props: ChangePasswordComponentProps
-) => (
-  <ReactApollo.Mutation<ChangePasswordMutation, ChangePasswordMutationVariables>
-    mutation={ChangePasswordDocument}
-    {...props}
-  />
-);
-
-export type ChangePasswordProps<TChildProps = {}> = Partial<
-  ReactApollo.MutateProps<
-    ChangePasswordMutation,
-    ChangePasswordMutationVariables
-  >
-> &
-  TChildProps;
-export function withChangePassword<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    ChangePasswordMutation,
-    ChangePasswordMutationVariables,
-    ChangePasswordProps<TChildProps>
-  >
-) {
-  return ReactApollo.withMutation<
-    TProps,
-    ChangePasswordMutation,
-    ChangePasswordMutationVariables,
-    ChangePasswordProps<TChildProps>
-  >(ChangePasswordDocument, {
-    alias: "withChangePassword",
-    ...operationOptions
-  });
-}
-export const ConfirmUserDocument = gql`
-  mutation ConfirmUser($token: String!) {
-    confirmUser(token: $token)
-  }
-`;
-export type ConfirmUserMutationFn = ReactApollo.MutationFn<
-  ConfirmUserMutation,
-  ConfirmUserMutationVariables
->;
-export type ConfirmUserComponentProps = Omit<
-  ReactApollo.MutationProps<ConfirmUserMutation, ConfirmUserMutationVariables>,
-  "mutation"
->;
-
-export const ConfirmUserComponent = (props: ConfirmUserComponentProps) => (
-  <ReactApollo.Mutation<ConfirmUserMutation, ConfirmUserMutationVariables>
-    mutation={ConfirmUserDocument}
-    {...props}
-  />
-);
-
-export type ConfirmUserProps<TChildProps = {}> = Partial<
-  ReactApollo.MutateProps<ConfirmUserMutation, ConfirmUserMutationVariables>
-> &
-  TChildProps;
-export function withConfirmUser<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    ConfirmUserMutation,
-    ConfirmUserMutationVariables,
-    ConfirmUserProps<TChildProps>
-  >
-) {
-  return ReactApollo.withMutation<
-    TProps,
-    ConfirmUserMutation,
-    ConfirmUserMutationVariables,
-    ConfirmUserProps<TChildProps>
-  >(ConfirmUserDocument, {
-    alias: "withConfirmUser",
-    ...operationOptions
-  });
-}
-export const ForgotPasswordDocument = gql`
-  mutation ForgotPassword($email: String!) {
-    forgotPassword(email: $email)
-  }
-`;
-export type ForgotPasswordMutationFn = ReactApollo.MutationFn<
-  ForgotPasswordMutation,
-  ForgotPasswordMutationVariables
->;
-export type ForgotPasswordComponentProps = Omit<
-  ReactApollo.MutationProps<
-    ForgotPasswordMutation,
-    ForgotPasswordMutationVariables
-  >,
-  "mutation"
->;
-
-export const ForgotPasswordComponent = (
-  props: ForgotPasswordComponentProps
-) => (
-  <ReactApollo.Mutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>
-    mutation={ForgotPasswordDocument}
-    {...props}
-  />
-);
-
-export type ForgotPasswordProps<TChildProps = {}> = Partial<
-  ReactApollo.MutateProps<
-    ForgotPasswordMutation,
-    ForgotPasswordMutationVariables
-  >
-> &
-  TChildProps;
-export function withForgotPassword<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    ForgotPasswordMutation,
-    ForgotPasswordMutationVariables,
-    ForgotPasswordProps<TChildProps>
-  >
-) {
-  return ReactApollo.withMutation<
-    TProps,
-    ForgotPasswordMutation,
-    ForgotPasswordMutationVariables,
-    ForgotPasswordProps<TChildProps>
-  >(ForgotPasswordDocument, {
-    alias: "withForgotPassword",
-    ...operationOptions
-  });
-}
 export const LoginDocument = gql`
   mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+    authenticate(email: $email, password: $password) {
       id
-      firstName
-      lastName
-      email
-      name
+      token
     }
   }
 `;
@@ -518,57 +249,14 @@ export function withLogin<TProps, TChildProps = {}>(
     ...operationOptions
   });
 }
-export const LogoutDocument = gql`
-  mutation Logout {
-    logout
-  }
-`;
-export type LogoutMutationFn = ReactApollo.MutationFn<
-  LogoutMutation,
-  LogoutMutationVariables
->;
-export type LogoutComponentProps = Omit<
-  ReactApollo.MutationProps<LogoutMutation, LogoutMutationVariables>,
-  "mutation"
->;
-
-export const LogoutComponent = (props: LogoutComponentProps) => (
-  <ReactApollo.Mutation<LogoutMutation, LogoutMutationVariables>
-    mutation={LogoutDocument}
-    {...props}
-  />
-);
-
-export type LogoutProps<TChildProps = {}> = Partial<
-  ReactApollo.MutateProps<LogoutMutation, LogoutMutationVariables>
-> &
-  TChildProps;
-export function withLogout<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    LogoutMutation,
-    LogoutMutationVariables,
-    LogoutProps<TChildProps>
-  >
-) {
-  return ReactApollo.withMutation<
-    TProps,
-    LogoutMutation,
-    LogoutMutationVariables,
-    LogoutProps<TChildProps>
-  >(LogoutDocument, {
-    alias: "withLogout",
-    ...operationOptions
-  });
-}
 export const RegisterDocument = gql`
-  mutation Register($data: RegisterInput!) {
-    register(data: $data) {
-      id
-      firstName
-      lastName
+  mutation Register($email: String!, $name: String!, $password: String!) {
+    signUp(email: $email, name: $name, password: $password) {
       email
+      gravatarMd5
+      id
       name
+      token
     }
   }
 `;
@@ -612,17 +300,12 @@ export function withRegister<TProps, TChildProps = {}>(
 }
 export const MeDocument = gql`
   query Me {
-    me {
-      id
+    currentUser {
       email
-      firstName
-      lastName
+      gravatarMd5
+      id
       name
-      accountType
-      ccLast4
-      profilePicture
-      subUntil
-      subStatus
+      token
     }
   }
 `;
@@ -654,99 +337,6 @@ export function withMe<TProps, TChildProps = {}>(
     MeProps<TChildProps>
   >(MeDocument, {
     alias: "withMe",
-    ...operationOptions
-  });
-}
-export const ZoneDocument = gql`
-  query Zone($id: Int!) {
-    zone(zoneId: $id) {
-      id
-      name
-      description
-      totalSpots
-      address
-      thumbnailUrl
-    }
-  }
-`;
-export type ZoneComponentProps = Omit<
-  ReactApollo.QueryProps<ZoneQuery, ZoneQueryVariables>,
-  "query"
-> &
-  ({ variables: ZoneQueryVariables; skip?: false } | { skip: true });
-
-export const ZoneComponent = (props: ZoneComponentProps) => (
-  <ReactApollo.Query<ZoneQuery, ZoneQueryVariables>
-    query={ZoneDocument}
-    {...props}
-  />
-);
-
-export type ZoneProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<ZoneQuery, ZoneQueryVariables>
-> &
-  TChildProps;
-export function withZone<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    ZoneQuery,
-    ZoneQueryVariables,
-    ZoneProps<TChildProps>
-  >
-) {
-  return ReactApollo.withQuery<
-    TProps,
-    ZoneQuery,
-    ZoneQueryVariables,
-    ZoneProps<TChildProps>
-  >(ZoneDocument, {
-    alias: "withZone",
-    ...operationOptions
-  });
-}
-export const ZonesDocument = gql`
-  query Zones {
-    zones {
-      id
-      name
-      description
-      totalSpots
-      address
-      thumbnailUrl
-    }
-  }
-`;
-export type ZonesComponentProps = Omit<
-  ReactApollo.QueryProps<ZonesQuery, ZonesQueryVariables>,
-  "query"
->;
-
-export const ZonesComponent = (props: ZonesComponentProps) => (
-  <ReactApollo.Query<ZonesQuery, ZonesQueryVariables>
-    query={ZonesDocument}
-    {...props}
-  />
-);
-
-export type ZonesProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<ZonesQuery, ZonesQueryVariables>
-> &
-  TChildProps;
-export function withZones<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    ZonesQuery,
-    ZonesQueryVariables,
-    ZonesProps<TChildProps>
-  >
-) {
-  return ReactApollo.withQuery<
-    TProps,
-    ZonesQuery,
-    ZonesQueryVariables,
-    ZonesProps<TChildProps>
-  >(ZonesDocument, {
-    alias: "withZones",
     ...operationOptions
   });
 }

@@ -1,10 +1,11 @@
 {
     "version": 2,
-    "name": "zone",
+    "name": "infusion",
     "regions": ["lhr1"],
     "build": {
       "env": {
-        "API_URL": "https://server.robert-rapiteanu.me/"
+        "API_URL": "https://server.robert-rapiteanu.me/",
+        "WS_URL": "ws://localhost:4000/socket"
       }
     },
     "builds": [

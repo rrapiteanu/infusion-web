@@ -8,15 +8,17 @@ import theme from "../lib/theme";
 //@ts-ignore
 class MyDocument extends Document<any> {
   static async getInitialProps(ctx) {
-    const sheet = new ServerStyleSheet();
-    const sheets = new ServerStyleSheets();
+    const styledComponentsSheet = new ServerStyleSheet();
+    const materialSheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
 
     try {
       ctx.renderPage = () =>
         originalRenderPage({
           enhanceApp: App => props =>
-            sheet.collectStyles(sheets.collect(<App {...props} />))
+            styledComponentsSheet.collectStyles(
+              materialSheets.collect(<App {...props} />)
+            )
         });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -26,14 +28,14 @@ class MyDocument extends Document<any> {
         styles: (
           <>
             {initialProps.styles}
-            {sheets.getStyleElement()}
-            {sheet.getStyleElement()}
+            {materialSheets.getStyleElement()}
+            {styledComponentsSheet.getStyleElement()}
             {flush() || null}
           </>
         )
       };
     } finally {
-      sheet.seal();
+      styledComponentsSheet.seal();
     }
   }
 

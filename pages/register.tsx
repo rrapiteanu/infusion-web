@@ -11,9 +11,9 @@ import { InputField } from "../components/fields/InputField";
 import { RegisterComponent } from "../generated/apolloComponents";
 import InfusionButton from "./../components/ui/InfusionButton/InfusionButton";
 import Layout from "./../components/ui/Layout/Layout";
-import { getCurrentUser } from "../lib/withAuth";
 import redirect from "../lib/redirect";
 import { MyContext } from "../interfaces/MyContext";
+import nextCookie from "next-cookies";
 
 const styles = theme => ({
   main: {
@@ -49,9 +49,9 @@ const styles = theme => ({
 
 class RegisterPage extends React.Component<any, any> {
   static async getInitialProps({ apolloClient, ...ctx }: MyContext) {
-    const currentUser = await getCurrentUser(apolloClient);
+    const { token } = nextCookie(ctx);
 
-    if (currentUser) {
+    if (token) {
       redirect(ctx, "/");
     }
     return {
@@ -78,10 +78,16 @@ class RegisterPage extends React.Component<any, any> {
                   validateOnBlur={false}
                   validateOnChange={false}
                   onSubmit={async (data, { setErrors }) => {
+
+                    const {email, password, lastName, firstName} = data;
+                    const name = `${firstName} ${lastName}`;
+
                     try {
                       await register({
                         variables: {
-                          data
+                          email,
+                          password,
+                          name
                         }
                       });
 

@@ -1,8 +1,6 @@
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import { FieldProps } from "formik";
 import React, { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { FormControl, InputLabel, Input } from "@material-ui/core";
 
 type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
@@ -22,7 +20,9 @@ export const InputField = ({
         {props.label ? props.label : field.name}
       </InputLabel>
       <Input {...field} {...props} />
-      {errorMessage && <div style={{ marginTop: 5, color: "red" }}>{errorMessage}</div>}
+      {errorMessage && (
+        <div style={{ marginTop: 5, color: "red" }}>{errorMessage}</div>
+      )}
     </FormControl>
   );
 };

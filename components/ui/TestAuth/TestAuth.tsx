@@ -1,5 +1,5 @@
 import React from "react";
-import { withAuth } from "../../../lib/withAuth";
+import { withAuth } from "../../../lib/auth";
 
 class TestAuth extends React.Component<any, any> {
   render() {  

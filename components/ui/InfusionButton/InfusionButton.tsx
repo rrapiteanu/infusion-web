@@ -22,6 +22,31 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const SimpleButton = styled.button`
+  padding: 10px 25px;
+  cursor: pointer;
+  outline: none;
+  display: inline-block;
+  width: auto;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 14px;
+  font-size: 15px;
+  background-color: transparent;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2.4px;
+  transition: "background-color", 0.2s;
+  background-color: #796eff;
+  border-color: #796eff;
+  color: white;
+  font-weight: 600 !important;
+  &:hover {
+    background-color: #594fc7;
+    border-color: #594fc7;
+  }
+`;
+
 const IntenseButton = styled.button`
   padding: 10px 25px;
   outline: none;
@@ -64,6 +89,8 @@ function InfusionButton({ buttonStyle = "", children, ...props }) {
   switch (buttonStyle) {
     case "intense":
       return <IntenseButton {...props}>{children}</IntenseButton>;
+    case "simple":
+      return <SimpleButton {...props}>{children}</SimpleButton>;
     default:
       return (
         <StyledButton {...props}>

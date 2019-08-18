@@ -12,9 +12,10 @@ import { LoginComponent } from "../generated/apolloComponents";
 import InfusionButton from "./../components/ui/InfusionButton/InfusionButton";
 import Layout from "./../components/ui/Layout/Layout";
 import { MyContext } from "../interfaces/MyContext";
+import { setAuth } from '../lib/auth';
+import nextCookie from "next-cookies";
 
 import redirect from "../lib/redirect";
-import { getCurrentUser } from "../lib/withAuth";
 
 const styles = theme => ({
   main: {
@@ -50,9 +51,9 @@ const styles = theme => ({
 
 class LoginPage extends React.Component<any, any> {
   static async getInitialProps({ apolloClient, ...ctx }: MyContext) {
-    const currentUser = await getCurrentUser(apolloClient);
+    const { token } = nextCookie(ctx);
 
-    if (currentUser) {
+    if (token) {
       redirect(ctx, "/");
     }
     return {
@@ -79,18 +80,39 @@ class LoginPage extends React.Component<any, any> {
                   validateOnBlur={false}
                   validateOnChange={false}
                   onSubmit={async (data, { setErrors }) => {
-                    const response = await login({
-                      variables: data
-                    });
 
-                    if (response && response.data && !response.data.login) {
-                      setErrors({
-                        password: "Wrong username or password"
+                    try {
+                      const response = await login({
+                        variables: data
                       });
+
+                      if (response && response.data && response.data.authenticate) {
+                        const { token } = response.data.authenticate;
+                        setAuth({ token });
+                      }
+
+                    } catch (error) {
+
+                      if(error.graphQLErrors[0].message)
+                      {
+                        setErrors({
+                          password: error.graphQLErrors[0].message
+                        });
+                      }
+                
                       return;
                     }
+          
+                   
 
-                    window.location.href = "/";
+                    // if (response && response.data && !response.data.authenticate) {
+                  
+                    //   return;
+                    // }
+
+                    // console.log(response);
+
+                    // window.location.href = "/";
                   }}
                   initialValues={{
                     email: "",
