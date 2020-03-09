@@ -13,16 +13,12 @@ import ResponsiveDrawer from "./ResponsiveDrawer";
 import logo from "./logo.png";
 import { logout, withAuth } from "../../../lib/auth";
 
-const Logo = styled.img`
-  height: 30px;
-`;
-
 const LogoText = styled.a`
   font-size: 25px;
   font-weight: 700;
   text-decoration: none;
   color: black;
-  &:hover{
+  &:hover {
     text-decoration: none;
   }
 `;
@@ -103,10 +99,10 @@ class BasicMenu extends React.Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
-  logout = (event) => {
+  logout = event => {
     event.preventDefault();
     logout();
-  }
+  };
 
   render() {
     const { mobileMoreAnchorEl } = this.state;
@@ -125,7 +121,7 @@ class BasicMenu extends React.Component {
         <NavBar position={type}>
           <Toolbar className={classes.toolbar}>
             <div className={classes.left}>
-            <LogoText href="/">INFUSION</LogoText>
+              <LogoText href="/">INFUSION</LogoText>
             </div>
             <div className={classes.sectionDesktop}>
               <div className={classes.right}>

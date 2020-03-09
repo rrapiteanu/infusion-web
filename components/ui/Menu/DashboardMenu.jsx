@@ -17,14 +17,10 @@ import { Avatar } from "@material-ui/core";
 const Logo = styled(Avatar)`
   font-size: 15px;
   cursor: pointer;
-  color: black;
   background: white;
-  border: 2px black solid;
   font-weight: bold;
   &:hover {
     color: white;
-    background: black;
-    border: 2px black solid;
   }
 `;
 
@@ -138,7 +134,7 @@ class DashboardMenu extends React.Component {
             <div className={classes.left}>
               {/* <LogoText href="/">I</LogoText> */}
               <Link underline="none" href="/feed">
-                <Logo color="blue">INF</Logo>
+                <Logo src={logo}></Logo>
               </Link>
             </div>
             <div className={classes.sectionDesktop}>

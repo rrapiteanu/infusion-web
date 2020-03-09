@@ -1,5 +1,5 @@
 import React from "react";
-import App, { Container } from "next/app";
+import App from "next/app";
 import Head from "next/head";
 
 import { ApolloProvider as ApolloProviderHooks } from "@apollo/react-hooks";
@@ -53,33 +53,31 @@ class MyApp extends App<any, any> {
     const { Component, pageProps, apolloClient, token, socket } = this.props;
 
     return (
-      <Container>
-        <ApolloProvider client={apolloClient}>
-          <ApolloProviderHooks client={apolloClient}>
-            <Head>
-              <title>My page</title>
-              <link
-                rel="stylesheet"
-                href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-              />
-              <link rel="manifest" href="/static/manifest.json" />
-            </Head>
+      <ApolloProvider client={apolloClient}>
+        <ApolloProviderHooks client={apolloClient}>
+          <Head>
+            <title>My page</title>
+            <link
+              rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            />
+            <link rel="manifest" href="/static/manifest.json" />
+          </Head>
 
-            <ThemeProvider theme={theme}>
-              <StylesProvider injectFirst disableGeneration={false}>
-                <CssBaseline />
-                <UserContext.Provider
-                  value={{
-                    isAuth: token
-                  }}
-                >
-                  <Component {...pageProps} />
-                </UserContext.Provider>
-              </StylesProvider>
-            </ThemeProvider>
-          </ApolloProviderHooks>
-        </ApolloProvider>
-      </Container>
+          <ThemeProvider theme={theme}>
+            <StylesProvider injectFirst disableGeneration={false}>
+              <CssBaseline />
+              <UserContext.Provider
+                value={{
+                  isAuth: token
+                }}
+              >
+                <Component {...pageProps} />
+              </UserContext.Provider>
+            </StylesProvider>
+          </ThemeProvider>
+        </ApolloProviderHooks>
+      </ApolloProvider>
     );
   }
 }
